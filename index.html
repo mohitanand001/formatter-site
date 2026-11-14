@@ -87,60 +87,45 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   <div class="mark"><i><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560h-80v80q0 17-11.5 28.5T640-640H320q-17 0-28.5-11.5T280-680v-80h-80v560Zm280-560q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg></i>Formatter</div>
   <h1>Copy once. Paste right, anywhere.</h1>
   <p class="lede">Formatter sits on the edge of your screen and converts what you copied for Slack, Jira, Confluence, Docs, Email, Markdown and more, so the formatting survives the paste.</p>
-  <a class="dl" href="formatter-0.13.0-rc.1.zip" download>Download for Linux<small>formatter-0.13.0-rc.1.zip · 0.4 MB · needs Node.js 20+</small></a>
-  <div class="chips"><span class="chip">Version 0.13.0-rc.1</span><span class="chip">Linux · GNOME</span><span class="chip soon">macOS · coming soon</span></div>
+  <a class="dl" href="formatter-0.14.0-rc.1-linux.zip" download>Download for Linux<small>formatter-0.14.0-rc.1-linux.zip · 0.1 MB · nothing else to install</small></a>
+  <div class="chips"><span class="chip">Version 0.14.0-rc.1</span><span class="chip">Linux · GNOME</span><span class="chip soon">macOS · coming soon</span></div>
 </header>
 
 <nav aria-label="Sections"><div class="in"><a href="#install">Install</a><a href="#update">Update</a><a href="#uninstall">Uninstall</a><a href="#fresh">Try on a fresh user</a><a href="#help">Troubleshooting</a></div></nav>
 
 <section id="install">
   <h2>Install on Linux</h2>
-  <p class="sub">This release installs from the project folder. A one-file download (AppImage and .deb) is planned. Tested on Ubuntu with GNOME on Wayland.</p>
+  <p class="sub">A tiny download that uses what GNOME already has: no Node.js, no Electron, nothing else to fetch. Made for Ubuntu and other GNOME desktops on Wayland.</p>
 
   <div class="grid">
-    <div class="card"><h3>You need</h3><p>Ubuntu or another GNOME desktop, Node.js 20 or newer with npm, and <code>unzip</code>.</p></div>
-    <div class="card"><h3>What it adds</h3><p>A tray icon, the pill on your screen edge, a small GNOME helper, and a <code>formatter-linker</code> command.</p></div>
+    <div class="card"><h3>You need</h3><p>Ubuntu, Fedora Workstation or another GNOME desktop, and <code>unzip</code>. GNOME's <code>gjs</code> is already part of it.</p></div>
+    <div class="card"><h3>What it adds</h3><p>The pill on your screen edge, a small GNOME helper, and a <code>formatter-linker</code> command. No icon in the top bar.</p></div>
     <div class="card"><h3>What it reads</h3><p>The clipboard and the front window's app name and title, only on your computer. Nothing is sent anywhere.</p></div>
   </div>
 
   <div class="step" style="margin-top:28px"><div class="n">1</div><div class="body">
-    <h3>Check Node.js</h3>
-    <p>It should print version 20 or higher. If not, install a newer Node first (see Troubleshooting).</p>
-    <div class="term"><pre><span class="c"># prints v20 or higher</span>
-node -v</pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-
-  <div class="step"><div class="n">2</div><div class="body">
     <h3>Unpack the folder</h3>
-    <p><a href="formatter-0.13.0-rc.1.zip" download>Download <code>formatter-0.13.0-rc.1.zip</code></a>, put it in your home folder (move it from Downloads), then unpack it.</p>
+    <p><a href="formatter-0.14.0-rc.1-linux.zip" download>Download <code>formatter-0.14.0-rc.1-linux.zip</code></a>, put it in your home folder (move it from Downloads), then unpack it.</p>
     <div class="term"><pre>cd ~
-unzip formatter-0.13.0-rc.1.zip
+unzip formatter-0.14.0-rc.1-linux.zip
 cd formatter</pre><button class="copy" type="button">Copy</button></div>
   </div></div>
 
-  <div class="step"><div class="n">3</div><div class="body">
+  <div class="step"><div class="n">2</div><div class="body">
     <h3>Run the installer</h3>
-    <p>This downloads the app's parts (a minute or two), adds the <code>formatter-linker</code> command and installs the GNOME helper.</p>
+    <p>It takes a second. It adds the <code>formatter-linker</code> command, the GNOME helper and start-at-login. It also stops the older Electron version if you had it.</p>
     <div class="term"><pre>chmod +x bin/formatter-linker
 bin/formatter-linker --install</pre><button class="copy" type="button">Copy</button></div>
-    <div class="note"><b>It may ask for one admin step.</b> If the installer prints a <code>sudo chown … chrome-sandbox</code> line, run it from an account that has admin rights, then continue. A user made with <code>adduser</code> usually isn't an admin, so run that one line from your own account using the full path shown.</div>
+  </div></div>
+
+  <div class="step"><div class="n">3</div><div class="body">
+    <h3>Log out and back in</h3>
+    <p>GNOME on Wayland only loads a new helper at login, so this is needed once. Formatter starts by itself after that.</p>
+    <div class="note"><b>Don't skip it.</b> Without it the pill won't appear.</div>
+    <div class="note ok"><b>You should see</b> a notification saying Formatter is running, and a slim tab on the right edge of the screen. Check with <code>formatter-linker --status</code>.</div>
   </div></div>
 
   <div class="step"><div class="n">4</div><div class="body">
-    <h3>Log out and back in</h3>
-    <p>GNOME on Wayland only loads a new helper at login. This is a one-time step.</p>
-    <div class="note"><b>Don't skip it.</b> Without it the pill won't appear. The tray icon and menu still work.</div>
-  </div></div>
-
-  <div class="step"><div class="n">5</div><div class="body">
-    <h3>Start it</h3>
-    <p>Open a new terminal (so the command is on your path) and start it. After the first run it starts by itself at login.</p>
-    <div class="term"><pre>formatter-linker --start
-formatter-linker --status</pre><button class="copy" type="button">Copy</button></div>
-    <div class="note ok"><b>You should see</b> the Formatter icon in the top bar, a slim tab on the right edge of the screen, and <code>Helper: ... ACTIVE</code> in the status output.</div>
-  </div></div>
-
-  <div class="step"><div class="n">6</div><div class="body">
     <h3>Use it</h3>
     <p>Copy something in an app you've chosen, click the tab, pick where it's going, then paste with Ctrl+V. The pill never takes focus, so the paste lands where you were.</p>
   </div></div>
@@ -148,51 +133,35 @@ formatter-linker --status</pre><button class="copy" type="button">Copy</button><
 
 <section id="update">
   <h2>Update</h2>
-  <p class="sub">Replace the folder's files with the new version, then run the installer again. Log out and in only if it says the helper changed.</p>
-  <div class="term"><pre>cd ~/formatter
+  <p class="sub">Unpack the new zip over the old folder, then run the installer again. Log out and in only if it says the helper changed.</p>
+  <div class="term"><pre>cd ~
+unzip -o formatter-0.14.0-rc.1-linux.zip
+cd formatter
 bin/formatter-linker --install
 formatter-linker --restart</pre><button class="copy" type="button">Copy</button></div>
 </section>
 
 <section id="uninstall">
   <h2>Uninstall completely</h2>
-  <p class="sub">Run these in order. They only touch Formatter's own files. Each line is safe to run even if that file is already gone.</p>
+  <p class="sub">One command removes the start-at-login entry, the command and the GNOME helper. Then delete the folder and, if you like, your settings.</p>
 
   <div class="step"><div class="n">1</div><div class="body">
-    <h3>Stop it and stop it starting at login</h3>
-    <div class="term"><pre>formatter-linker --stop
-rm -f ~/.config/autostart/format-bridge.desktop</pre><button class="copy" type="button">Copy</button></div>
+    <h3>Remove it from this account</h3>
+    <div class="term"><pre>formatter-linker --uninstall
+sed -i '/formatter-linker PATH/,+1d' ~/.bashrc</pre><button class="copy" type="button">Copy</button></div>
+    <p>The second line takes out the path line the installer may have added to <code>~/.bashrc</code>.</p>
   </div></div>
 
   <div class="step"><div class="n">2</div><div class="body">
-    <h3>Remove the GNOME helper</h3>
-    <div class="term"><pre>gnome-extensions disable format-bridge-focus@formatbridge.dev
-rm -rf ~/.local/share/gnome-shell/extensions/format-bridge-focus@formatbridge.dev</pre><button class="copy" type="button">Copy</button></div>
+    <h3>Remove your settings and the folder</h3>
+    <p>Settings are your chosen apps, order and size. Skip the first line if you plan to reinstall and want them back.</p>
+    <div class="term"><pre>rm -rf ~/.config/formatter ~/.config/format-bridge "$HOME/.config/Format Bridge" ~/.cache/formatter.log ~/.cache/formatter-linker.log
+rm -rf ~/formatter</pre><button class="copy" type="button">Copy</button></div>
   </div></div>
 
   <div class="step"><div class="n">3</div><div class="body">
-    <h3>Remove the command and its path line</h3>
-    <p>The second line removes the two lines the installer added to <code>~/.bashrc</code>. If you never opened a terminal after installing, it does nothing.</p>
-    <div class="term"><pre>rm -f ~/.local/bin/formatter-linker ~/.cache/formatter-linker.log
-sed -i '/formatter-linker PATH/,+1d' ~/.bashrc</pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-
-  <div class="step"><div class="n">4</div><div class="body">
-    <h3>Remove your settings</h3>
-    <p>This forgets your chosen apps, order, size and look. Skip it if you plan to reinstall and want them back.</p>
-    <div class="term"><pre>rm -rf ~/.config/format-bridge "$HOME/.config/Format Bridge" ~/.config/Formatter
-ls ~/.config | grep -i -E 'format|bridge'   <span class="c"># should print nothing</span></pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-
-  <div class="step"><div class="n">5</div><div class="body">
-    <h3>Delete the app folder</h3>
-    <p>Only when you're sure. Keep a copy of the zip if you want to test a fresh install afterwards.</p>
-    <div class="term"><pre>rm -rf ~/formatter</pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-
-  <div class="step"><div class="n">6</div><div class="body">
     <h3>Log out and back in</h3>
-    <p>GNOME keeps the old helper loaded until you do. After logging back in, the tab and tray icon are gone.</p>
+    <p>GNOME keeps the old helper loaded until you do. Afterwards the tab is gone.</p>
     <div class="term"><pre>gnome-extensions info format-bridge-focus@formatbridge.dev   <span class="c"># should say: not found</span></pre><button class="copy" type="button">Copy</button></div>
   </div></div>
 </section>
@@ -210,13 +179,13 @@ ls ~/.config | grep -i -E 'format|bridge'   <span class="c"># should print nothi
   <div class="step"><div class="n">2</div><div class="body">
     <h3>Share the zip</h3>
     <p>Put it where both users can read it.</p>
-    <div class="term"><pre>cp ~/formatter-0.13.0-rc.1.zip /tmp/
-chmod 644 /tmp/formatter-0.13.0-rc.1.zip</pre><button class="copy" type="button">Copy</button></div>
+    <div class="term"><pre>cp ~/formatter-0.14.0-rc.1-linux.zip /tmp/
+chmod 644 /tmp/formatter-0.14.0-rc.1-linux.zip</pre><button class="copy" type="button">Copy</button></div>
   </div></div>
 
   <div class="step"><div class="n">3</div><div class="body">
     <h3>Sign in as that user</h3>
-    <p>Use the user menu in the top right, choose <em>Log Out</em> or switch user, and sign in as <code>formattertest</code> on a normal graphical login, not a terminal. Install Node first if <code>node -v</code> fails or shows less than 20, then follow Install above, starting at step 2 (copy the zip from <code>/tmp</code> into the new user's home folder first).</p>
+    <p>Use the user menu in the top right, choose <em>Log Out</em> or switch user, and sign in as <code>formattertest</code> on a normal graphical login, not a terminal. Copy the zip from <code>/tmp</code> into the new user's home folder, then follow Install above.</p>
     <div class="note"><b>The first thing to look for:</b> everything should start from zero. If you see your old chosen apps, you're still in your own account.</div>
   </div></div>
 
@@ -231,13 +200,11 @@ chmod 644 /tmp/formatter-0.13.0-rc.1.zip</pre><button class="copy" type="button"
   <h2>Troubleshooting</h2>
   <details><summary>The pill doesn't appear</summary><div class="in">
     <p>You need to log out and in once after installing. Then run <code>formatter-linker --status</code>. If the helper isn't active, run <code>gnome-extensions enable format-bridge-focus@formatbridge.dev</code> and log out and in again.</p>
-    <p>The pill only shows in the apps you've chosen. If you set it to "only chosen apps" and chose none, it stays hidden. Open the tray menu to change it.</p></div></details>
-  <details><summary>It stops right away and the log mentions "SUID sandbox"</summary><div class="in"><p>Electron's sandbox helper needs one-time setup. Run the line the installer printed, which looks like this (with your own folder):</p><div class="term"><pre>sudo chown root:root ~/formatter/node_modules/electron/dist/chrome-sandbox
-sudo chmod 4755 ~/formatter/node_modules/electron/dist/chrome-sandbox</pre><button class="copy" type="button">Copy</button></div><p>Then run <code>formatter-linker --start</code> again. A packaged .deb will do this for you.</p></div></details>
-  <details><summary>No tray icon</summary><div class="in"><p>Ubuntu shows tray icons through its AppIndicator helper. Run <code>gnome-extensions enable ubuntu-appindicators@ubuntu.com</code>.</p></div></details>
-  <details><summary>Node.js is missing or too old</summary><div class="in"><p>Ubuntu's own package can be old. Install a current Node from <code>nodejs.org</code>, or with nvm, then run <code>node -v</code> again. The installer stops with a message if Node isn't found.</p></div></details>
-  <details><summary>The installer says npm install failed</summary><div class="in"><p>It needs internet access to fetch its parts the first time. Check your connection (and any proxy), then run <code>bin/formatter-linker --install</code> again. It picks up where it stopped.</p></div></details>
-  <details><summary>Where does it log?</summary><div class="in"><p>In <code>~/.cache/formatter-linker.log</code>. Attach the last few lines when you report a problem.</p></div></details>
+    <p>The pill only shows in the apps you've chosen. Open its settings (the gear) and switch on "Show the pill in every app" to see it everywhere.</p></div></details>
+  <details><summary>I closed the pill with the ✕</summary><div class="in"><p>Press Ctrl Alt F, or log out and in. It always comes back at the next start.</p></div></details>
+  <details><summary>"gjs is missing"</summary><div class="in"><p>It's part of GNOME, so this is rare. On Ubuntu run <code>sudo apt install gjs</code>, on Fedora <code>sudo dnf install gjs</code>.</p></div></details>
+  <details><summary>It stops right away</summary><div class="in"><p>Run <code>formatter-linker --start</code>. It prints the last lines of its log if it can't start. Attach them when you report a problem.</p></div></details>
+  <details><summary>Where does it log?</summary><div class="in"><p>In <code>~/.cache/formatter.log</code>. For more detail, run <code>FB_DEBUG=1 gjs -m ~/formatter/daemon/gjs-main.js</code> in a terminal.</p></div></details>
 </section>
 
 <footer>Formatter is independent software. Slack, Jira, Confluence, Google Docs, Notion, Linear, Microsoft Teams and other names and marks belong to their owners and appear only to say which app a format is for. Not affiliated with or endorsed by them.</footer>
