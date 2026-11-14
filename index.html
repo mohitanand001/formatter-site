@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Formatter Install Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single centred column, a sticky step rail on wide screens, terminal blocks with real copy buttons.
+   Colour: ink-teal on warm paper, one teal accent; tactile buttons (solid lower edge, sinks on press). */
+:root{
+  --bg:#f7f1e1; --paper:#fffdf6; --fg:#0a3a45; --muted:#5b6f6f; --line:#ddd3b4; --edge:#cfc29a;
+  --accent:#137b72; --accent-ink:#ffffff; --code-bg:#0d2f38; --code-fg:#e8f3ef; --code-mute:#8fb3ad;
+  --warn-bg:#fbefd2; --warn-line:#e3c36d; --ok-bg:#dff3ec; --ok-line:#9fd3c3;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',Ubuntu,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b2229; --paper:#10303a; --fg:#e8f1ee; --muted:#9ab5b0; --line:#1f4a55; --edge:#07171c;
+  --accent:#3fc3b4; --accent-ink:#06262c; --code-bg:#071a20; --code-fg:#e8f3ef; --code-mute:#7ea39d;
+  --warn-bg:#3a3217; --warn-line:#8a7430; --ok-bg:#12403a; --ok-line:#2c7a6f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b2229; --paper:#10303a; --fg:#e8f1ee; --muted:#9ab5b0; --line:#1f4a55; --edge:#07171c;
+  --accent:#3fc3b4; --accent-ink:#06262c; --code-bg:#071a20; --code-fg:#e8f3ef; --code-mute:#7ea39d;
+  --warn-bg:#3a3217; --warn-line:#8a7430; --ok-bg:#12403a; --ok-line:#2c7a6f; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--sans);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 72px}
+.wrap{max-width:860px;margin:0 auto}
+header{padding:56px 0 28px}
+.mark{display:inline-flex;align-items:center;gap:12px;font-weight:800;font-size:15px;letter-spacing:.02em}
+.mark i{width:36px;height:36px;border-radius:11px;background:var(--accent);display:grid;place-items:center}
+.mark svg{width:22px;height:22px;fill:var(--accent-ink)}
+h1{font-size:clamp(34px,6vw,54px);line-height:1.05;margin:22px 0 14px;font-weight:800;letter-spacing:-.025em;text-wrap:balance}
+.lede{font-size:19px;max-width:60ch;color:var(--muted);margin:0 0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--paper)}
+.dl{display:inline-block;margin:0 0 22px;font-weight:800;font-size:16px;text-decoration:none;color:var(--accent-ink);background:var(--accent);padding:12px 22px;border-radius:12px;box-shadow:0 3px 0 rgba(0,0,0,.3);transition:transform .08s,box-shadow .08s}
+.dl:active{transform:translateY(3px);box-shadow:0 0 0 rgba(0,0,0,.3)}
+.dl small{display:block;font-weight:500;font-size:12px;opacity:.85}
+.chip.soon{border-style:dashed;color:var(--muted)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-block:1px solid var(--line);margin-bottom:8px}
+nav .in{display:flex;gap:4px;overflow-x:auto;padding:8px 0}
+nav a{color:var(--fg);text-decoration:none;font-weight:700;font-size:14px;padding:7px 14px;border-radius:10px;white-space:nowrap}
+nav a:hover{background:var(--paper)}
+nav a:focus-visible,.copy:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section{padding:40px 0 8px;scroll-margin-top:64px}
+h2{font-size:28px;line-height:1.15;margin:0 0 6px;letter-spacing:-.015em;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 22px;max-width:62ch}
+.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 16px;margin:0 0 26px}
+.n{width:44px;height:44px;border-radius:13px;background:var(--paper);border:1px solid var(--line);box-shadow:0 2px 0 var(--edge);
+  display:grid;place-items:center;font-weight:800;font-size:18px;color:var(--accent)}
+.step h3{margin:6px 0 4px;font-size:18px;line-height:1.3}
+.step p{margin:0 0 10px;color:var(--muted)}
+.body{min-width:0}
+.term{background:var(--code-bg);color:var(--code-fg);border-radius:14px;margin:10px 0 0;position:relative;box-shadow:0 2px 0 var(--edge)}
+.term pre{margin:0;padding:16px 64px 16px 18px;overflow-x:auto;font:500 14px/1.7 var(--mono)}
+.term .c{color:var(--code-mute)}
+.copy{position:absolute;top:10px;right:10px;font:700 12px var(--sans);color:var(--accent-ink);background:var(--accent);border:0;border-radius:9px;
+  padding:6px 11px;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.35);transition:transform .08s,box-shadow .08s}
+.copy:active{transform:translateY(2px);box-shadow:0 0 0 rgba(0,0,0,.35)}
+.copy.done{background:var(--ok-bg);color:var(--fg)}
+.note{border:1px solid var(--warn-line);background:var(--warn-bg);border-radius:12px;padding:12px 16px;margin:14px 0;font-size:15px}
+.note.ok{border-color:var(--ok-line);background:var(--ok-bg)}
+.note b{font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:6px 0 4px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 2px 0 var(--edge)}
+.card h3{margin:0 0 6px;font-size:16px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+details{background:var(--paper);border:1px solid var(--line);border-radius:14px;margin:12px 0;box-shadow:0 2px 0 var(--edge)}
+summary{cursor:pointer;font-weight:800;padding:14px 18px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--accent);font-size:20px;line-height:1}
+details[open] summary::after{content:"−"}
+details .in{padding:0 18px 16px;color:var(--muted)}
+details .in p{margin:0 0 10px}
+code{font:500 .9em var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+@media (max-width:520px){.step{grid-template-columns:36px minmax(0,1fr);gap:4px 12px}.n{width:36px;height:36px;font-size:16px;border-radius:11px}header{padding-top:36px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header>
+  <div class="mark"><i><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560h-80v80q0 17-11.5 28.5T640-640H320q-17 0-28.5-11.5T280-680v-80h-80v560Zm280-560q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg></i>Formatter</div>
+  <h1>Copy once. Paste right, anywhere.</h1>
+  <p class="lede">Formatter sits on the edge of your screen and converts what you copied for Slack, Jira, Confluence, Docs, Email, Markdown and more, so the formatting survives the paste.</p>
+  <a class="dl" href="formatter-0.13.0-rc.1.zip" download>Download for Linux<small>formatter-0.13.0-rc.1.zip · 0.4 MB · needs Node.js 20+</small></a>
+  <div class="chips"><span class="chip">Version 0.13.0-rc.1</span><span class="chip">Linux · GNOME</span><span class="chip soon">macOS · coming soon</span></div>
+</header>
+
+<nav aria-label="Sections"><div class="in"><a href="#install">Install</a><a href="#update">Update</a><a href="#uninstall">Uninstall</a><a href="#fresh">Try on a fresh user</a><a href="#help">Troubleshooting</a></div></nav>
+
+<section id="install">
+  <h2>Install on Linux</h2>
+  <p class="sub">This release installs from the project folder. A one-file download (AppImage and .deb) is planned. Tested on Ubuntu with GNOME on Wayland.</p>
+
+  <div class="grid">
+    <div class="card"><h3>You need</h3><p>Ubuntu or another GNOME desktop, Node.js 20 or newer with npm, and <code>unzip</code>.</p></div>
+    <div class="card"><h3>What it adds</h3><p>A tray icon, the pill on your screen edge, a small GNOME helper, and a <code>formatter-linker</code> command.</p></div>
+    <div class="card"><h3>What it reads</h3><p>The clipboard and the front window's app name and title, only on your computer. Nothing is sent anywhere.</p></div>
+  </div>
+
+  <div class="step" style="margin-top:28px"><div class="n">1</div><div class="body">
+    <h3>Check Node.js</h3>
+    <p>It should print version 20 or higher. If not, install a newer Node first (see Troubleshooting).</p>
+    <div class="term"><pre><span class="c"># prints v20 or higher</span>
+node -v</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">2</div><div class="body">
+    <h3>Unpack the folder</h3>
+    <p><a href="formatter-0.13.0-rc.1.zip" download>Download <code>formatter-0.13.0-rc.1.zip</code></a>, put it in your home folder (move it from Downloads), then unpack it.</p>
+    <div class="term"><pre>cd ~
+unzip formatter-0.13.0-rc.1.zip
+cd formatter</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">3</div><div class="body">
+    <h3>Run the installer</h3>
+    <p>This downloads the app's parts (a minute or two), adds the <code>formatter-linker</code> command and installs the GNOME helper.</p>
+    <div class="term"><pre>chmod +x bin/formatter-linker
+bin/formatter-linker --install</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">4</div><div class="body">
+    <h3>Log out and back in</h3>
+    <p>GNOME on Wayland only loads a new helper at login. This is a one-time step.</p>
+    <div class="note"><b>Don't skip it.</b> Without it the pill won't appear. The tray icon and menu still work.</div>
+  </div></div>
+
+  <div class="step"><div class="n">5</div><div class="body">
+    <h3>Start it</h3>
+    <p>Open a new terminal (so the command is on your path) and start it. After the first run it starts by itself at login.</p>
+    <div class="term"><pre>formatter-linker --start
+formatter-linker --status</pre><button class="copy" type="button">Copy</button></div>
+    <div class="note ok"><b>You should see</b> the Formatter icon in the top bar, a slim tab on the right edge of the screen, and <code>Helper: ... ACTIVE</code> in the status output.</div>
+  </div></div>
+
+  <div class="step"><div class="n">6</div><div class="body">
+    <h3>Use it</h3>
+    <p>Copy something in an app you've chosen, click the tab, pick where it's going, then paste with Ctrl+V. The pill never takes focus, so the paste lands where you were.</p>
+  </div></div>
+</section>
+
+<section id="update">
+  <h2>Update</h2>
+  <p class="sub">Replace the folder's files with the new version, then run the installer again. Log out and in only if it says the helper changed.</p>
+  <div class="term"><pre>cd ~/formatter
+bin/formatter-linker --install
+formatter-linker --restart</pre><button class="copy" type="button">Copy</button></div>
+</section>
+
+<section id="uninstall">
+  <h2>Uninstall completely</h2>
+  <p class="sub">Run these in order. They only touch Formatter's own files. Each line is safe to run even if that file is already gone.</p>
+
+  <div class="step"><div class="n">1</div><div class="body">
+    <h3>Stop it and stop it starting at login</h3>
+    <div class="term"><pre>formatter-linker --stop
+rm -f ~/.config/autostart/format-bridge.desktop</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">2</div><div class="body">
+    <h3>Remove the GNOME helper</h3>
+    <div class="term"><pre>gnome-extensions disable format-bridge-focus@formatbridge.dev
+rm -rf ~/.local/share/gnome-shell/extensions/format-bridge-focus@formatbridge.dev</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">3</div><div class="body">
+    <h3>Remove the command and its path line</h3>
+    <p>The second line removes the two lines the installer added to <code>~/.bashrc</code>. If you never opened a terminal after installing, it does nothing.</p>
+    <div class="term"><pre>rm -f ~/.local/bin/formatter-linker ~/.cache/formatter-linker.log
+sed -i '/formatter-linker PATH/,+1d' ~/.bashrc</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">4</div><div class="body">
+    <h3>Remove your settings</h3>
+    <p>This forgets your chosen apps, order, size and look. Skip it if you plan to reinstall and want them back.</p>
+    <div class="term"><pre>rm -rf ~/.config/format-bridge "$HOME/.config/Format Bridge" ~/.config/Formatter
+ls ~/.config | grep -i -E 'format|bridge'   <span class="c"># should print nothing</span></pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">5</div><div class="body">
+    <h3>Delete the app folder</h3>
+    <p>Only when you're sure. Keep a copy of the zip if you want to test a fresh install afterwards.</p>
+    <div class="term"><pre>rm -rf ~/formatter</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">6</div><div class="body">
+    <h3>Log out and back in</h3>
+    <p>GNOME keeps the old helper loaded until you do. After logging back in, the tab and tray icon are gone.</p>
+    <div class="term"><pre>gnome-extensions info format-bridge-focus@formatbridge.dev   <span class="c"># should say: not found</span></pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+</section>
+
+<section id="fresh">
+  <h2>Try it on a fresh user</h2>
+  <p class="sub">A second Linux user behaves like a new machine: no settings, no helper, no command. Both sessions can stay open side by side.</p>
+
+  <div class="step"><div class="n">1</div><div class="body">
+    <h3>Create the test user</h3>
+    <p>From your normal account. Pick any password.</p>
+    <div class="term"><pre>sudo adduser formattertest</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">2</div><div class="body">
+    <h3>Share the zip</h3>
+    <p>Put it where both users can read it.</p>
+    <div class="term"><pre>cp ~/formatter-0.13.0-rc.1.zip /tmp/
+chmod 644 /tmp/formatter-0.13.0-rc.1.zip</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+
+  <div class="step"><div class="n">3</div><div class="body">
+    <h3>Sign in as that user</h3>
+    <p>Use the user menu in the top right, choose <em>Log Out</em> or switch user, and sign in as <code>formattertest</code> on a normal graphical login, not a terminal. Install Node first if <code>node -v</code> fails or shows less than 20, then follow Install above, starting at step 2 (copy the zip from <code>/tmp</code> into the new user's home folder first).</p>
+    <div class="note"><b>The first thing to look for:</b> everything should start from zero. If you see your old chosen apps, you're still in your own account.</div>
+  </div></div>
+
+  <div class="step"><div class="n">4</div><div class="body">
+    <h3>Clean up afterwards</h3>
+    <p>From your normal account, once you've finished testing. This deletes the test user and its files.</p>
+    <div class="term"><pre>sudo deluser --remove-home formattertest</pre><button class="copy" type="button">Copy</button></div>
+  </div></div>
+</section>
+
+<section id="help">
+  <h2>Troubleshooting</h2>
+  <details><summary>The pill doesn't appear</summary><div class="in">
+    <p>You need to log out and in once after installing. Then run <code>formatter-linker --status</code>. If the helper isn't active, run <code>gnome-extensions enable format-bridge-focus@formatbridge.dev</code> and log out and in again.</p>
+    <p>The pill only shows in the apps you've chosen. If you set it to "only chosen apps" and chose none, it stays hidden. Open the tray menu to change it.</p></div></details>
+  <details><summary>No tray icon</summary><div class="in"><p>Ubuntu shows tray icons through its AppIndicator helper. Run <code>gnome-extensions enable ubuntu-appindicators@ubuntu.com</code>.</p></div></details>
+  <details><summary>Node.js is missing or too old</summary><div class="in"><p>Ubuntu's own package can be old. Install a current Node from <code>nodejs.org</code>, or with nvm, then run <code>node -v</code> again. The installer stops with a message if Node isn't found.</p></div></details>
+  <details><summary>The installer says npm install failed</summary><div class="in"><p>It needs internet access to fetch its parts the first time. Check your connection (and any proxy), then run <code>bin/formatter-linker --install</code> again. It picks up where it stopped.</p></div></details>
+  <details><summary>Where does it log?</summary><div class="in"><p>In <code>~/.cache/formatter-linker.log</code>. Attach the last few lines when you report a problem.</p></div></details>
+</section>
+
+<footer>Formatter is independent software. Slack, Jira, Confluence, Google Docs, Notion, Linear, Microsoft Teams and other names and marks belong to their owners and appear only to say which app a format is for. Not affiliated with or endorsed by them.</footer>
+</div>
+
+<script>
+document.querySelectorAll('.term').forEach(function(t){
+  var b=t.querySelector('.copy'), pre=t.querySelector('pre');
+  b.addEventListener('click',function(){
+    var text=pre.innerText.replace(/\s+# [^\n]*$/gm,'').replace(/\n+$/,'');
+    function ok(){b.textContent='Copied';b.classList.add('done');setTimeout(function(){b.textContent='Copy';b.classList.remove('done')},1500)}
+    function fallback(){var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';setTimeout(function(){b.textContent='Copy'},1500)}
+    try{navigator.clipboard.writeText(text).then(ok,fallback)}catch(e){fallback()}
+  });
+});
+</script>
+
+</body>
+</html>
