@@ -87,11 +87,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
   <div class="mark"><i><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h167q11-35 43-57.5t70-22.5q40 0 71.5 22.5T594-840h166q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560h-80v80q0 17-11.5 28.5T640-640H320q-17 0-28.5-11.5T280-680v-80h-80v560Zm280-560q17 0 28.5-11.5T520-800q0-17-11.5-28.5T480-840q-17 0-28.5 11.5T440-800q0 17 11.5 28.5T480-760Z"/></svg></i>Formatter</div>
   <h1>Copy once. Paste right, anywhere.</h1>
   <p class="lede">Formatter sits on the edge of your screen and converts what you copied for Slack, Jira, Confluence, Docs, Email, Markdown and more, so the formatting survives the paste.</p>
-  <a class="dl" href="formatter-0.14.0-rc.8-linux.zip" download>Download for Linux<small>formatter-0.14.0-rc.8-linux.zip · 0.1 MB · nothing else to install</small></a>
-  <div class="chips"><span class="chip">Version 0.14.0-rc.8</span><span class="chip">Linux · GNOME</span><span class="chip soon">macOS · coming soon</span></div>
+  <a class="dl" href="formatter-0.14.0-rc.9-linux.zip" download>Download for Linux<small>formatter-0.14.0-rc.9-linux.zip · 0.1 MB · nothing else to install</small></a>
+  <div class="chips"><span class="chip">Version 0.14.0-rc.9</span><span class="chip">Linux · GNOME</span><span class="chip soon">macOS · coming soon</span></div>
 </header>
 
-<nav aria-label="Sections"><div class="in"><a href="#install">Install</a><a href="#update">Update</a><a href="#uninstall">Uninstall</a><a href="#fresh">Try on a fresh user</a><a href="#help">Troubleshooting</a></div></nav>
+<nav aria-label="Sections"><div class="in"><a href="#install">Install</a><a href="#update">Update</a><a href="#uninstall">Uninstall</a><a href="#help">Troubleshooting</a></div></nav>
 
 <section id="install">
   <h2>Install on Linux</h2>
@@ -105,9 +105,8 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:v
 
   <div class="step" style="margin-top:28px"><div class="n">1</div><div class="body">
     <h3>Unpack the folder</h3>
-    <p><a href="formatter-0.14.0-rc.8-linux.zip" download>Download <code>formatter-0.14.0-rc.8-linux.zip</code></a>, put it in your home folder (move it from Downloads), then unpack it.</p>
-    <div class="term"><pre>cd ~
-unzip formatter-0.14.0-rc.8-linux.zip
+    <p><a href="formatter-0.14.0-rc.9-linux.zip" download>Download <code>formatter-0.14.0-rc.9-linux.zip</code></a>. Then open a terminal in the folder where you downloaded it (usually Downloads) and unpack it.</p>
+    <div class="term"><pre>unzip formatter-0.14.0-rc.9-linux.zip
 cd formatter</pre><button class="copy" type="button">Copy</button></div>
   </div></div>
 
@@ -133,71 +132,17 @@ bin/formatter-linker --install</pre><button class="copy" type="button">Copy</but
 
 <section id="update">
   <h2>Update</h2>
-  <p class="sub">Formatter checks this page once a day. When there's a newer version it shows a notification, and a row in the pill's Settings (General) installs it and restarts. You can also do it from a terminal, any time. It checks the download's fingerprint before installing it.</p>
-  <div class="term"><pre>formatter-linker --update</pre><button class="copy" type="button">Copy</button></div>
-  <p class="sub" style="margin-top:18px">If the helper changed in a release, it tells you to log out and in once. To stop the daily check, switch off "Check for updates daily" in the pill's Settings.</p>
-  <p class="sub">Coming from 0.14.0-rc.5 or older? Those versions don't have <code>--update</code> yet. Unpack the new zip over the old folder once, run <code>bin/formatter-linker --install</code>, and updates are automatic from then on.</p>
-  <div class="term"><pre>cd ~
-unzip -o formatter-0.14.0-rc.8-linux.zip
+  <p class="sub">Formatter checks this page once a day. To check yourself, open the pill, then Settings, then <b>Updates</b>. It says whether you're on the latest version, and a refresh button checks again. When there's a newer version, an <b>Update</b> button installs it and restarts Formatter. The download's fingerprint is checked first.</p>
+  <p class="sub">If a release changes the GNOME helper, it tells you to log out and back in once. The daily check can be switched off in the same place.</p>
+  <p class="sub">Coming from 0.14.0-rc.5 or older? Those versions can't update themselves yet. Unpack the new zip once from the folder where you downloaded it, and run the installer again.</p>
+  <div class="term"><pre>unzip -o formatter-0.14.0-rc.9-linux.zip
 cd formatter
 bin/formatter-linker --install</pre><button class="copy" type="button">Copy</button></div>
 </section>
 
 <section id="uninstall">
-  <h2>Uninstall completely</h2>
-  <p class="sub">The easiest way: open the pill, go to Settings, General, and click <b>Uninstall Formatter</b>. It asks you to click twice, then removes everything: the GNOME helper, start-at-login, the command, your settings and the app folder. The same thing from a terminal:</p>
-  <div class="term"><pre>formatter-linker --purge</pre><button class="copy" type="button">Copy</button></div>
-  <p class="sub" style="margin-top:18px">Prefer to do it by hand? One command removes the start-at-login entry, the command and the GNOME helper. Then delete the folder and, if you like, your settings.</p>
-
-  <div class="step"><div class="n">1</div><div class="body">
-    <h3>Remove it from this account</h3>
-    <div class="term"><pre>formatter-linker --uninstall
-sed -i '/formatter-linker PATH/,+1d' ~/.bashrc</pre><button class="copy" type="button">Copy</button></div>
-    <p>The second line takes out the path line the installer may have added to <code>~/.bashrc</code>.</p>
-  </div></div>
-
-  <div class="step"><div class="n">2</div><div class="body">
-    <h3>Remove your settings and the folder</h3>
-    <p>Settings are your chosen apps, order and size. Skip the first line if you plan to reinstall and want them back.</p>
-    <div class="term"><pre>rm -rf ~/.config/formatter ~/.config/format-bridge "$HOME/.config/Format Bridge" ~/.cache/formatter.log ~/.cache/formatter-linker.log
-rm -rf ~/formatter</pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-
-  <div class="step"><div class="n">3</div><div class="body">
-    <h3>Log out and back in</h3>
-    <p>GNOME keeps the old helper loaded until you do. Afterwards the tab is gone.</p>
-    <div class="term"><pre>gnome-extensions info format-bridge-focus@formatbridge.dev   <span class="c"># should say: not found</span></pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-</section>
-
-<section id="fresh">
-  <h2>Try it on a fresh user</h2>
-  <p class="sub">A second Linux user behaves like a new machine: no settings, no helper, no command. Both sessions can stay open side by side.</p>
-
-  <div class="step"><div class="n">1</div><div class="body">
-    <h3>Create the test user</h3>
-    <p>From your normal account. Pick any password.</p>
-    <div class="term"><pre>sudo adduser formattertest</pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-
-  <div class="step"><div class="n">2</div><div class="body">
-    <h3>Share the zip</h3>
-    <p>Put it where both users can read it.</p>
-    <div class="term"><pre>cp ~/formatter-0.14.0-rc.8-linux.zip /tmp/
-chmod 644 /tmp/formatter-0.14.0-rc.8-linux.zip</pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
-
-  <div class="step"><div class="n">3</div><div class="body">
-    <h3>Sign in as that user</h3>
-    <p>Use the user menu in the top right, choose <em>Log Out</em> or switch user, and sign in as <code>formattertest</code> on a normal graphical login, not a terminal. Copy the zip from <code>/tmp</code> into the new user's home folder, then follow Install above.</p>
-    <div class="note"><b>The first thing to look for:</b> everything should start from zero. If you see your old chosen apps, you're still in your own account.</div>
-  </div></div>
-
-  <div class="step"><div class="n">4</div><div class="body">
-    <h3>Clean up afterwards</h3>
-    <p>From your normal account, once you've finished testing. This deletes the test user and its files.</p>
-    <div class="term"><pre>sudo deluser --remove-home formattertest</pre><button class="copy" type="button">Copy</button></div>
-  </div></div>
+  <h2>Uninstall</h2>
+  <p class="sub">Open the pill, then Settings, then <b>Uninstall</b>, and press <b>Uninstall Formatter</b>. It asks you to confirm first. Then it removes everything: the GNOME helper, start-at-login, the command, your settings and the app folder. Log out and back in afterwards so GNOME lets go of the helper.</p>
 </section>
 
 <section id="help">
