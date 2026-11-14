@@ -123,6 +123,7 @@ cd formatter</pre><button class="copy" type="button">Copy</button></div>
     <p>This downloads the app's parts (a minute or two), adds the <code>formatter-linker</code> command and installs the GNOME helper.</p>
     <div class="term"><pre>chmod +x bin/formatter-linker
 bin/formatter-linker --install</pre><button class="copy" type="button">Copy</button></div>
+    <div class="note"><b>It may ask for one admin step.</b> If the installer prints a <code>sudo chown … chrome-sandbox</code> line, run it from an account that has admin rights, then continue. A user made with <code>adduser</code> usually isn't an admin, so run that one line from your own account using the full path shown.</div>
   </div></div>
 
   <div class="step"><div class="n">4</div><div class="body">
@@ -231,6 +232,8 @@ chmod 644 /tmp/formatter-0.13.0-rc.1.zip</pre><button class="copy" type="button"
   <details><summary>The pill doesn't appear</summary><div class="in">
     <p>You need to log out and in once after installing. Then run <code>formatter-linker --status</code>. If the helper isn't active, run <code>gnome-extensions enable format-bridge-focus@formatbridge.dev</code> and log out and in again.</p>
     <p>The pill only shows in the apps you've chosen. If you set it to "only chosen apps" and chose none, it stays hidden. Open the tray menu to change it.</p></div></details>
+  <details><summary>It stops right away and the log mentions "SUID sandbox"</summary><div class="in"><p>Electron's sandbox helper needs one-time setup. Run the line the installer printed, which looks like this (with your own folder):</p><div class="term"><pre>sudo chown root:root ~/formatter/node_modules/electron/dist/chrome-sandbox
+sudo chmod 4755 ~/formatter/node_modules/electron/dist/chrome-sandbox</pre><button class="copy" type="button">Copy</button></div><p>Then run <code>formatter-linker --start</code> again. A packaged .deb will do this for you.</p></div></details>
   <details><summary>No tray icon</summary><div class="in"><p>Ubuntu shows tray icons through its AppIndicator helper. Run <code>gnome-extensions enable ubuntu-appindicators@ubuntu.com</code>.</p></div></details>
   <details><summary>Node.js is missing or too old</summary><div class="in"><p>Ubuntu's own package can be old. Install a current Node from <code>nodejs.org</code>, or with nvm, then run <code>node -v</code> again. The installer stops with a message if Node isn't found.</p></div></details>
   <details><summary>The installer says npm install failed</summary><div class="in"><p>It needs internet access to fetch its parts the first time. Check your connection (and any proxy), then run <code>bin/formatter-linker --install</code> again. It picks up where it stopped.</p></div></details>
