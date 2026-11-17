@@ -8,6 +8,10 @@
 <pre><code>curl -fsSL https://mohitanand001.github.io/formatter-site/test/install.sh | bash</code></pre>
 <p>Prefer to read it first? <a href="install.sh">install.sh</a> only downloads <a href="morph-0.15.0-rc.1-linux.zip">this zip</a>, checks its fingerprint against <a href="version.json">version.json</a>, unpacks it into <code>~/.local/share/morph</code> and runs <code>morph --install</code>. No sudo.</p>
 <p>When it finishes, Morph opens a short setup page with two questions: which apps it may read copies from, and whether to check for updates. It reads nothing until you answer. No log out is needed. Only if the installer says so, log out and back in once.</p>
+<h2 style="font-size:1.1rem;margin-top:2rem">Optional: read tables from images</h2>
+<p>Copy a screenshot of a table, then click an app in the pill: Morph reads the rows and columns and converts them like any other table. It runs PaddleOCR on your computer and only when you click. Turn it on in a terminal (about 1&nbsp;GB, one time, needs internet):</p>
+<pre><code>~/.local/bin/morph --enable-ocr</code></pre>
+<p>Remove it with <code>morph --disable-ocr</code>. OCR can misread digits, so check the numbers.</p>
 <p>Remove it any time with <code>morph --uninstall</code>.</p>
 <p><a href="../try.html">Try the converter in your browser</a></p>
 </body></html>
